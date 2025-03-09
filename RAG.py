@@ -12,11 +12,13 @@ from langchain.chains import RetrievalQA
 from langchain_core.messages import HumanMessage, AIMessage 
 import urllib.parse
 import base64
-from dotenv import load_doadenv 
+from dotenv import load_dotenv 
 
 
-
+load_dotenv()
 DB_PATH = "renesas_knowledge_db"
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # ✅ Load Embeddings
 embeddings = HuggingFaceEmbeddings(model_name="BAAI/bge-large-en", encode_kwargs={'normalize_embeddings': True})
@@ -30,7 +32,7 @@ st.sidebar.success("Chroma retrieval ready!")
 # ✅ Load LLM (ChatGPT)
 llm = ChatOpenAI(
     model_name="gpt-4o",
-    api_key=""
+    api_key=OPENAI_API_KEY
 )
 st.title("LLM with PDF and Image Retrieval gPT 4 vision")
 user_input = st.text_area("Ask a question:", key="user_query")
@@ -61,18 +63,33 @@ if st.button("Submit"):
                     filename = doc.metadata.get("source","unknown source")
                     references.append (f"Refeences: {category}/{subcategory}/{filename}")
                 
-                custom_prompt = f"""
-                Answer the following question based on the document provided.
-                
-                If any image is related to the answer, explicitly say:
-                'Here is the image related to your query:'
-                Describe the image as you understand it from context.
-                
-                Do not apologize for not displaying images. If images exist, refer to them confidently.
+                content = [
+                    {"type":"text", "text": user_input}
+                ]
+                if uploaded_file:
+                    base64_image = encode_image(uploaded_file)
+                    content.append({
+                        "type": "image_url",
+                        "image_url": {
+                            "url": f"data:image/jpeg;base64,{base64_image}"
+                        }
+                    })
 
-                
-                --------------------
-                Question: {user_input}
+                custom_prompt = f"""
+            Answer the user's query based on:
+            - User Question: {user_input}
+            - User Uploaded Image (if any).
+            - Any relevant information from the documents retrieved.
+            - Cross-reference the image from the knowledge base if possible.
+            
+            IMPORTANT INSTRUCTIONS:
+            - If the image uploaded by the user is relevant to the query, analyze it and answer.
+            - If you find a related image from the document, mention it explicitly like: 
+                "Here is the image from the document that matches your query."
+            - Always provide the source document/page reference if possible.
+            - DO NOT apologize for not showing the image. Just analyze and provide the answer confidently.
+
+            User Query: {user_input}
                 """
                 
                 # response_text=""
@@ -84,7 +101,13 @@ if st.button("Submit"):
                 #             response_text = f"Here is the image from the doc: {image_path}"
 
                 qa_chain = RetrievalQA.from_chain_type(llm=llm, retriever=retriever, chain_type="stuff")
-                answer = qa_chain.run(custom_prompt)
+                answer = qa_chain.run({
+                    "query": custom_prompt,
+                    "content": content
+
+                }
+
+                )
                 st.subheader("LLM Answer:")
                 st.markdown(answer)
 
@@ -98,8 +121,10 @@ if st.button("Submit"):
                     for image_path in image_paths:
                         if os.path.exists(image_path):
                             st.image(image_path, caption="🖼 Image from Document", use_container_width=True)
-
-                #st.write(response_text)
+                
+                if uploaded_file:
+                    st.subheader("User uploaded image:")
+                    st.image(uploaded_file, caption="User uploaded image..",use_container_width=True)
             else:
                 st.write("No relevant content found.")
 
