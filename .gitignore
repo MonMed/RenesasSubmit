@@ -6,4 +6,6 @@ test1.py
 image_test.py
 Extracted_JSONS/
 renesas_knowledge_db/
-
+.env
+__pycache__/
+*.pyc
