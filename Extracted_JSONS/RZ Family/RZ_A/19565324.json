@@ -1,0 +1,7 @@
+{
+    "filename": "19565324",
+    "category": "RZ Family",
+    "subcategory": "RZ_A",
+    "content": "RZ/A: MMU and cache settings\nLast Updated:08/05/2020\nQuestion:\nMMU and cache settings\nAnswer:\nIn addition to setting memory area attributes (including cache attributes), the MMU also converts\nvirtual addresses to physical addresses.\nIf the MMU is disabled, the physical address will be accessed. If the virtual address and physical\naddress are not the same, and address translation is performed, it is necessary to fully consider the\nmemory allocation of the program and data when disabling the MMU once.\nSuitable Products\nRZ/A1L\nRZ/A1LU\nRZ/A1LC\nRZ/A1M\nRZ/A1H\nRZ/A2M\nGo to Japanese",
+    "images": []
+}

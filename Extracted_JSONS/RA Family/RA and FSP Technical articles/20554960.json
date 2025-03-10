@@ -1,0 +1,9 @@
+{
+    "filename": "20554960",
+    "category": "RA Family",
+    "subcategory": "RA and FSP Technical articles",
+    "content": "RA Family: Windows System Commands Fail to Run from e2studio\nfrom the Build Steps Option in FSP 3.7.0 and Later\nLast Updated:06/10/2022\nIssue\nWindows Systems Commands don't run in FSP 3.7.0 and later (will fail), but Linux System\nCommands will run.\nExample of copy command failing:\nSolution:\nUse Linux commands instead. For example, Changing del => rm, and copy => cp should allow the\nbuild to complete without these error messages from the pre-build step.\ne2studio\nFSP\nSource: RAP-1819",
+    "images": [
+        "KnowledgeBase\\RA Family\\RA and FSP Technical articles\\images\\20554960_image_0.jpg"
+    ]
+}
