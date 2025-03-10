@@ -21,7 +21,7 @@ DB_PATH = "renesas_knowledge_db"
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # ✅ Load Embeddings
-embeddings = HuggingFaceEmbeddings(model_name="BAAI/bge-large-en", encode_kwargs={'normalize_embeddings': True})
+embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2", encode_kwargs={'normalize_embeddings': True})
 st.sidebar.success("Embeddings loaded successfully")
 
 # ✅ Load Chroma Vector Store

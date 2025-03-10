@@ -47,7 +47,7 @@ print(documents)
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200)
 chunks = text_splitter.split_documents(documents)
 
-embeddings = HuggingFaceEmbeddings(model_name = "BAAI/bge-large-en", encode_kwargs={'normalize_embeddings':True})
+embeddings = HuggingFaceEmbeddings(model_name = "all-MiniLM-L6-v2", encode_kwargs={'normalize_embeddings':True})
 
 vectorstore = Chroma.from_documents(documents=chunks, embedding=embeddings, persist_directory=DB_PATH)
 print(f"ChromDB Succesfully saved in {DB_PATH}")

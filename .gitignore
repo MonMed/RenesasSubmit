@@ -9,3 +9,4 @@ renesas_knowledge_db/
 .env
 __pycache__/
 *.pyc
+report.md
