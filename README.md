@@ -7,20 +7,11 @@ User may send hand drawn sketches or images to the bot along with their query an
 In case the information cannot be found in the knowledgebase with goog enough confidence, the bot should be able to invoke another agent to search across all of renesas.com for possible answers.  
 This bot needs to be deployed on the cloud with a streamlit interface.  
 
+# Find the detailed report in report.pdf  
 
 # Commands  
 python -m venv venv  
 Set -ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser  
 venv\Scripts\activate  
-pip install requests beautifulsoup4 selenium pandas bs4 selenium webdriver-manager  
-pip list  
-
-Bash: cd /d/  
-cd /Monica_D/Intellectual/AI/vettura/RenesasBot  
-
-git status  
-git add .  
-git commit -m "Random text"    
-git push origin main  
 
 ------------------------
